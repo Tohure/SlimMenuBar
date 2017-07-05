@@ -1,0 +1,6 @@
+
+hsquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(³Œ÷êýÿÿÿÿ
+dsquid:CallToDeprecatedMethod"9Remove this use of "setDrawerListener"; it is deprecated.(ø¶Âßÿÿÿÿÿ
+zsquid:S1450"^Remove the "mDrawerItemList" field and declare it as a local variable in the relevant methods.(îª­¿8ŸûÄ‚Ñ+
+‚squid:S1450"aRemove the "drawerRecyclerView" field and declare it as a local variable in the relevant methods.(ñèÝ“øÿÿÿÿ8íïß‚Ñ+
+gsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(þƒþ¡8ÈæÂ‚Ñ+
