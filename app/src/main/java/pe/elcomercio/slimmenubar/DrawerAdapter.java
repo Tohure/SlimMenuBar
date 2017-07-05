@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,13 +19,25 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     private static final int TYPE_LOGO = 1;
     private List<DrawerItem> drawerMenuList;
 
+    //Listener for onClick in Item Menu adapter
+    private DrawerAdapter.OnItemClickListener listener;
+    interface OnItemClickListener { void onItemMenuClick(DrawerItem item); }
+    void setOnItemClickListener(OnItemClickListener listener) { this.listener = listener; }
+
+
+    //Listener for onClick in Item Heaer Menu
+    private DrawerAdapter.OnHeadClickListener listenerHeader;
+    interface OnHeadClickListener { void onHeadClick(); }
+    void setOnHeadClickListener(OnHeadClickListener listener) { this.listenerHeader = listener; }
+
+
+
     public void addData(List<DrawerItem> mDrawerItemList) {
         this.drawerMenuList = mDrawerItemList;
     }
 
     @Override
     public int getItemViewType(int position) {
-        // TODO: De haber otro tipo de vistas agregarlas aquí cambiando de if else a switch
         if (position == 0) {
             return TYPE_LOGO;
         }else{
@@ -76,8 +87,17 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public DrawerViewHolder(View itemView) {
             super(itemView);
+            itemView.setClickable(true);
             iconMenu = (AppCompatImageView) itemView.findViewById(R.id.icon);
             badgeValue = (AppCompatTextView) itemView.findViewById(R.id.lblFilterCount);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemMenuClick(drawerMenuList.get(getAdapterPosition()));
+
+                }
+            });
         }
     }
 
@@ -88,6 +108,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         public DrawerHeaderViewHolder(View itemView) {
             super(itemView);
             iconMenu = (AppCompatImageView) itemView.findViewById(R.id.icon);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listenerHeader.onHeadClick();
+
+                }
+            });
         }
     }
 }

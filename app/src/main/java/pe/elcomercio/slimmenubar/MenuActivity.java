@@ -14,14 +14,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+import static android.view.Gravity.RIGHT;
+
+public class MenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DrawerAdapter.OnItemClickListener, DrawerAdapter.OnHeadClickListener {
 
     private List<DrawerItem> mDrawerItemList;
     private RecyclerView drawerRecyclerView;
+    private Toast toast;
+    DrawerLayout drawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +53,13 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void init() {
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerRecyclerView = (RecyclerView) findViewById(R.id.drawerRecyclerView);
 
+        populateMenu();
+    }
+
+    private void populateMenu() {
         mDrawerItemList = new ArrayList<>();
 
         DrawerItem item0 = new DrawerItem();
@@ -84,19 +94,19 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
 
         DrawerItem item5 = new DrawerItem();
         item5.setIcon(R.drawable.ic_setup_deactivate);
-        item5.setTitle("Alarm");
+        item5.setTitle("Setup");
         item5.setBadge(0);
         mDrawerItemList.add(item5);
 
         DrawerItem item6 = new DrawerItem();
         item6.setIcon(R.drawable.ic_menu_item_active);
-        item6.setTitle("Home");
+        item6.setTitle("Search 1");
         item6.setBadge(0);
         mDrawerItemList.add(item6);
 
         DrawerItem item7 = new DrawerItem();
         item7.setIcon(R.drawable.ic_menu_item_active);
-        item7.setTitle("Home");
+        item7.setTitle("Search 2");
         item7.setBadge(0);
         mDrawerItemList.add(item7);
 
@@ -104,12 +114,15 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         DrawerAdapter adapter = new DrawerAdapter();
         adapter.addData(mDrawerItemList);
         drawerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        drawerRecyclerView.setHasFixedSize(true);
         drawerRecyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(this);
+        adapter.setOnHeadClickListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -158,5 +171,19 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onItemMenuClick(DrawerItem drawerItem) {
+        if (toast != null) toast.cancel();
+        toast = Toast.makeText(this, drawerItem.getTitle(), Toast.LENGTH_SHORT);
+        toast.show();
+    }
+
+    @Override
+    public void onHeadClick() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
     }
 }
