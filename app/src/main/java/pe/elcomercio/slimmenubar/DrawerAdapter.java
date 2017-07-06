@@ -24,13 +24,10 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     interface OnItemClickListener { void onItemMenuClick(DrawerItem item, int adapterPosition); }
     void setOnItemClickListener(OnItemClickListener listener) { this.listener = listener; }
 
-
     //Listener for onClick in Item Heaer Menu
     private DrawerAdapter.OnHeadClickListener listenerHeader;
     interface OnHeadClickListener { void onHeadClick(); }
     void setOnHeadClickListener(OnHeadClickListener listener) { this.listenerHeader = listener; }
-
-
 
     public void addData(List<DrawerItem> mDrawerItemList) {
         /*drawerMenuList.clear();
@@ -104,7 +101,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         this.notifyDataSetChanged();
     }
 
-
     public class DrawerViewHolder extends RecyclerView.ViewHolder {
 
         AppCompatImageView iconMenu;
@@ -136,7 +132,6 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 @Override
                 public void onClick(View view) {
                     listenerHeader.onHeadClick();
-
                 }
             });
         }

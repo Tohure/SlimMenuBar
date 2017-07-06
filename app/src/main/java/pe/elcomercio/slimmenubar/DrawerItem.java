@@ -6,11 +6,20 @@ package pe.elcomercio.slimmenubar;
 
 public class DrawerItem {
 
+    private int id;
     private String title;
     private int iconActivate;
     private int iconDeactivate;
     private int badge;
     private boolean selected;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
