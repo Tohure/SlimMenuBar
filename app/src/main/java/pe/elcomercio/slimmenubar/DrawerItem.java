@@ -7,9 +7,10 @@ package pe.elcomercio.slimmenubar;
 public class DrawerItem {
 
     private String title;
-    private int icon;
+    private int iconActivate;
+    private int iconDeactivate;
     private int badge;
-    private boolean activated;
+    private boolean selected;
 
     public String getTitle() {
         return title;
@@ -19,12 +20,20 @@ public class DrawerItem {
         this.title = title;
     }
 
-    public int getIcon() {
-        return icon;
+    public int getIconActivate() {
+        return iconActivate;
     }
 
-    public void setIcon(int icon) {
-        this.icon = icon;
+    public void setIconActivate(int iconActivate) {
+        this.iconActivate = iconActivate;
+    }
+
+    public int getIconDeactivate() {
+        return iconDeactivate;
+    }
+
+    public void setIconDeactivate(int iconDeactivate) {
+        this.iconDeactivate = iconDeactivate;
     }
 
     public int getBadge() {
@@ -35,11 +44,11 @@ public class DrawerItem {
         this.badge = badge;
     }
 
-    public boolean isActivated() {
-        return activated;
+    public boolean isSelected() {
+        return selected;
     }
 
-    public void setActivated(boolean activated) {
-        this.activated = activated;
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }

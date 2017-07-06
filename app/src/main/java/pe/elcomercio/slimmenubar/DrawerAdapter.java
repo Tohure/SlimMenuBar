@@ -21,7 +21,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     //Listener for onClick in Item Menu adapter
     private DrawerAdapter.OnItemClickListener listener;
-    interface OnItemClickListener { void onItemMenuClick(DrawerItem item); }
+    interface OnItemClickListener { void onItemMenuClick(DrawerItem item, int adapterPosition); }
     void setOnItemClickListener(OnItemClickListener listener) { this.listener = listener; }
 
 
@@ -33,6 +33,9 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     public void addData(List<DrawerItem> mDrawerItemList) {
+        /*drawerMenuList.clear();
+        drawerMenuList.addAll(mDrawerItemList);
+        notifyDataSetChanged();*/
         this.drawerMenuList = mDrawerItemList;
     }
 
@@ -64,8 +67,14 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         if (holder.getItemViewType() == TYPE_ITEM_MENU){
             DrawerViewHolder itemHolder = (DrawerViewHolder) holder;
 
-            itemHolder.iconMenu.setImageResource(drawerMenuList.get(position).getIcon());
+            if (drawerMenuList.get(position).isSelected()){
+                itemHolder.iconMenu.setImageResource(drawerMenuList.get(position).getIconActivate());
+            }else{
+                itemHolder.iconMenu.setImageResource(drawerMenuList.get(position).getIconDeactivate());
+            }
+
             if (drawerMenuList.get(position).getBadge()>0){
+                itemHolder.badgeValue.setVisibility(View.VISIBLE);
                 itemHolder.badgeValue.setText(String.valueOf(drawerMenuList.get(position).getBadge()));
             }else{
                 itemHolder.badgeValue.setVisibility(View.GONE);
@@ -79,6 +88,22 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
 
+    public void setSelected(int position)
+    {
+        for (int i = 0; i < drawerMenuList.size(); i++) {
+            drawerMenuList.get(i).setSelected(i == position);
+        }
+
+        this.notifyDataSetChanged();
+    }
+
+    public void setBadge(int position,int newBadge)
+    {
+        drawerMenuList.get(position).setBadge(newBadge);
+
+        this.notifyDataSetChanged();
+    }
+
 
     public class DrawerViewHolder extends RecyclerView.ViewHolder {
 
@@ -87,15 +112,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public DrawerViewHolder(View itemView) {
             super(itemView);
-            itemView.setClickable(true);
-            iconMenu = (AppCompatImageView) itemView.findViewById(R.id.icon);
-            badgeValue = (AppCompatTextView) itemView.findViewById(R.id.lblFilterCount);
+            iconMenu = itemView.findViewById(R.id.icon);
+            badgeValue = itemView.findViewById(R.id.lblFilterCount);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemMenuClick(drawerMenuList.get(getAdapterPosition()));
-
+                    listener.onItemMenuClick(drawerMenuList.get(getAdapterPosition()),getAdapterPosition());
                 }
             });
         }
@@ -107,7 +130,7 @@ public class DrawerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         public DrawerHeaderViewHolder(View itemView) {
             super(itemView);
-            iconMenu = (AppCompatImageView) itemView.findViewById(R.id.icon);
+            iconMenu = itemView.findViewById(R.id.icon);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

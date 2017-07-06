@@ -26,7 +26,8 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     private List<DrawerItem> mDrawerItemList;
     private RecyclerView drawerRecyclerView;
     private Toast toast;
-    DrawerLayout drawer;
+    private DrawerLayout drawer;
+    private DrawerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,56 +64,63 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         mDrawerItemList = new ArrayList<>();
 
         DrawerItem item0 = new DrawerItem();
-        item0.setIcon(0);
         item0.setTitle("Home");
         item0.setBadge(0);
         mDrawerItemList.add(item0);
 
         DrawerItem item = new DrawerItem();
-        item.setIcon(R.drawable.ic_menu_item_active);
+        item.setIconActivate(R.drawable.ic_menu_item_active);
+        item.setIconDeactivate(R.drawable.ic_menu_item_deactive);
         item.setTitle("Home");
         item.setBadge(0);
         mDrawerItemList.add(item);
 
         DrawerItem item2 = new DrawerItem();
-        item2.setIcon(R.drawable.ic_bell_deactivate);
+        item2.setIconActivate(R.drawable.ic_bell_activate);
+        item2.setIconDeactivate(R.drawable.ic_bell_deactivate);
         item2.setTitle("Notification");
         item2.setBadge(2);
         mDrawerItemList.add(item2);
 
         DrawerItem item3 = new DrawerItem();
-        item3.setIcon(R.drawable.ic_heart_deactivate);
+        item3.setIconActivate(R.drawable.ic_heart_activate);
+        item3.setIconDeactivate(R.drawable.ic_heart_deactivate);
         item3.setTitle("Favorite");
         item3.setBadge(0);
         mDrawerItemList.add(item3);
 
         DrawerItem item4 = new DrawerItem();
-        item4.setIcon(R.drawable.ic_alarm_deactivate);
+        item4.setIconActivate(R.drawable.ic_alarm_activate);
+        item4.setIconDeactivate(R.drawable.ic_alarm_deactivate);
         item4.setTitle("Alarm");
         item4.setBadge(0);
         mDrawerItemList.add(item4);
 
         DrawerItem item5 = new DrawerItem();
-        item5.setIcon(R.drawable.ic_setup_deactivate);
+        item5.setIconActivate(R.drawable.ic_setup_activate);
+        item5.setIconDeactivate(R.drawable.ic_setup_deactivate);
         item5.setTitle("Setup");
         item5.setBadge(0);
         mDrawerItemList.add(item5);
 
         DrawerItem item6 = new DrawerItem();
-        item6.setIcon(R.drawable.ic_menu_item_active);
+        item6.setIconActivate(R.drawable.ic_menu_item_active);
+        item6.setIconDeactivate(R.drawable.ic_menu_item_deactive);
         item6.setTitle("Search 1");
         item6.setBadge(0);
         mDrawerItemList.add(item6);
 
         DrawerItem item7 = new DrawerItem();
-        item7.setIcon(R.drawable.ic_menu_item_active);
+        item7.setIconActivate(R.drawable.ic_menu_item_active);
+        item7.setIconDeactivate(R.drawable.ic_menu_item_deactive);
         item7.setTitle("Search 2");
         item7.setBadge(0);
         mDrawerItemList.add(item7);
 
-
-        DrawerAdapter adapter = new DrawerAdapter();
+        adapter = new DrawerAdapter();
         adapter.addData(mDrawerItemList);
+        adapter.setSelected(1);
+
         drawerRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         drawerRecyclerView.setHasFixedSize(true);
         drawerRecyclerView.setAdapter(adapter);
@@ -174,16 +182,23 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void onItemMenuClick(DrawerItem drawerItem) {
+    public void onItemMenuClick(DrawerItem drawerItem, int adapterPosition) {
+        adapter.setSelected(adapterPosition);
+        adapter.setBadge(2,0);
         if (toast != null) toast.cancel();
-        toast = Toast.makeText(this, drawerItem.getTitle(), Toast.LENGTH_SHORT);
+        toast = Toast.makeText(this, drawerItem.getTitle()+" / "+drawerItem.getBadge(), Toast.LENGTH_SHORT);
         toast.show();
+        closeNavigationDrawer();
+    }
+
+    public void closeNavigationDrawer() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        }
     }
 
     @Override
     public void onHeadClick() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        }
+        closeNavigationDrawer();
     }
 }
