@@ -101,20 +101,6 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         item5.setBadge(0);
         mDrawerItemList.add(item5);
 
-        DrawerItem item6 = new DrawerItem();
-        item6.setIconActivate(R.drawable.ic_menu_item_active);
-        item6.setIconDeactivate(R.drawable.ic_menu_item_deactive);
-        item6.setTitle("Search 1");
-        item6.setBadge(0);
-        mDrawerItemList.add(item6);
-
-        DrawerItem item7 = new DrawerItem();
-        item7.setIconActivate(R.drawable.ic_menu_item_active);
-        item7.setIconDeactivate(R.drawable.ic_menu_item_deactive);
-        item7.setTitle("Search 2");
-        item7.setBadge(0);
-        mDrawerItemList.add(item7);
-
         adapter = new DrawerAdapter();
         adapter.addData(mDrawerItemList);
         adapter.setSelected(1);
@@ -184,7 +170,7 @@ public class MenuActivity extends AppCompatActivity implements NavigationView.On
         adapter.setSelected(adapterPosition);
         adapter.setBadge(2,0);
         if (toast != null) toast.cancel();
-        toast = Toast.makeText(this, drawerItem.getTitle()+" / "+drawerItem.getBadge(), Toast.LENGTH_SHORT);
+        toast = Toast.makeText(this, drawerItem.getTitle()+" / "+drawerItem.getBadge()+" ---------- "+mDrawerItemList.get(adapterPosition).getBadge(), Toast.LENGTH_SHORT);
         toast.show();
         closeNavigationDrawer();
     }
